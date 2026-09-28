@@ -1,0 +1,102 @@
+-- ============================================
+-- Bank Customer Transaction & Suspicious Activity Analysis
+-- SQL Analysis
+-- ============================================
+
+-- 1. Total number of transactions
+SELECT COUNT(*) AS total_transactions
+FROM cleaned_bank_transactions;
+
+
+-- 2. Transactions by transaction type
+SELECT transaction_type, COUNT(*) AS transaction_count
+FROM cleaned_bank_transactions
+GROUP BY transaction_type
+ORDER BY transaction_count DESC;
+
+
+-- 3. Transactions by channel
+SELECT channel, COUNT(*) AS transaction_count
+FROM cleaned_bank_transactions
+GROUP BY channel
+ORDER BY transaction_count DESC;
+
+
+-- 4. Transactions by state
+SELECT state, COUNT(*) AS transaction_count
+FROM cleaned_bank_transactions
+GROUP BY state
+ORDER BY transaction_count DESC;
+
+
+-- 5. Transaction status
+SELECT transaction_status, COUNT(*) AS transaction_count
+FROM cleaned_bank_transactions
+GROUP BY transaction_status
+ORDER BY transaction_count DESC;
+
+
+-- 6. Transaction direction
+SELECT transaction_direction, COUNT(*) AS transaction_count
+FROM cleaned_bank_transactions
+GROUP BY transaction_direction
+ORDER BY transaction_count DESC;
+
+
+-- 7. Fraudulent transactions by transaction type
+SELECT transaction_type, COUNT(*) AS fraud_count
+FROM cleaned_bank_transactions
+WHERE is_fraud = 1
+GROUP BY transaction_type
+ORDER BY fraud_count DESC;
+
+
+-- 8. Fraudulent transactions by channel
+SELECT channel, COUNT(*) AS fraud_count
+FROM cleaned_bank_transactions
+WHERE is_fraud = 1
+GROUP BY channel
+ORDER BY fraud_count DESC;
+
+
+-- 9. Fraudulent transactions by merchant category
+SELECT merchant_category, COUNT(*) AS fraud_count
+FROM cleaned_bank_transactions
+WHERE is_fraud = 1
+GROUP BY merchant_category
+ORDER BY fraud_count DESC;
+
+
+-- 10. Fraudulent transactions by hour
+SELECT transaction_hour, COUNT(*) AS fraud_count
+FROM cleaned_bank_transactions
+WHERE is_fraud = 1
+GROUP BY transaction_hour
+ORDER BY transaction_hour;
+
+
+-- 11. Total fraudulent transactions
+SELECT COUNT(*) AS total_fraud_transactions
+FROM cleaned_bank_transactions
+WHERE is_fraud = 1;
+
+
+-- 12. High-value transactions
+SELECT COUNT(*) AS high_value_transactions
+FROM cleaned_bank_transactions
+WHERE transaction_amount > 530534.6678;
+
+
+-- 13. High-value fraudulent transactions
+SELECT COUNT(*) AS high_value_fraud_transactions
+FROM cleaned_bank_transactions
+WHERE is_fraud = 1
+  AND transaction_amount > 530534.6678;
+
+
+-- 14. Late-night fraudulent transactions
+SELECT COUNT(*) AS late_night_fraud_transactions
+FROM cleaned_bank_transactions
+WHERE is_fraud = 1
+  AND transaction_hour >= 0
+  AND transaction_hour < 6;
